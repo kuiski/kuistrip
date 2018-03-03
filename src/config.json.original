@@ -1,0 +1,12 @@
+/**
+ * Set your firebase information.
+ * Then rename this file to 'config.js' 
+ */
+export const config = {
+    apiKey: "",
+    authDomain: "",
+    databaseURL: "",
+    projectId: ",
+    storageBucket: "",
+    messagingSenderId: ""
+};
