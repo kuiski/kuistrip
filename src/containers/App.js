@@ -5,6 +5,7 @@ import { Header } from "../components/Header";
 import { TripCard } from "../components/TripCard";
 import { TripView } from "../components/TripView";
 import { CalendarPage } from "./CalendarPage";
+import { ChatPage } from "./ChatPage";
 
 const users = {
   osa9: {
@@ -203,6 +204,11 @@ class App extends Component {
           availableDays={this.state.calendars.osa9.availableDays}
           updateDays={(uid, days) => this.updateDays(uid, days)}
         />
+      );
+    }
+    if (this.state.view === 2) {
+      return (
+        <ChatPage />
       );
     }
     if (this.state.selectedItem) {
