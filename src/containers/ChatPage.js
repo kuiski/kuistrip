@@ -2,6 +2,7 @@ import React from "react";
 import { Chat } from "../components/Chat";
 // import './App.css';
 
+import firebase from "firebase";
 import { firebaseDb } from '../firebase.js'
 const messagesRef = firebaseDb.ref('messages')
 
@@ -33,6 +34,7 @@ export class ChatPage extends React.Component {
       "user_name" : this.state.user_name,
       "profile_image" : this.state.profile_image,
       "text" : this.state.text,
+      "date" : firebase.database.ServerValue.TIMESTAMP,
     })
   }
 
@@ -53,15 +55,12 @@ export class ChatPage extends React.Component {
   }
 
   componentWillMount() {
+    this.state.messages = [];
     messagesRef.on('child_added', (snapshot) => {
       const m = snapshot.val()
       let msgs = this.state.messages
 
-      msgs.push({
-        'text' : m.text,
-        'user_name' : m.user_name,
-        'profile_image' : m.profile_image,
-      })
+      msgs.unshift(m);
 
       this.setState({
         messages : msgs
