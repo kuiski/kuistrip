@@ -34,6 +34,7 @@ export class Header extends React.Component {
         >
           <Tab label="旅行" />
           <Tab label="予定" />
+          <Tab label="掲示板" />
         </Tabs>
       </AppBar>
     );
