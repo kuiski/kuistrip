@@ -21,6 +21,21 @@ export class ChatPage extends React.Component {
     this.onTextChange = this.onTextChange.bind(this);
   }
 
+  translate(text) {
+    const obj = { text: text };
+    const body = Object.keys(obj).map((key)=>key+"="+encodeURIComponent(obj[key])).join("&");
+    const headers = {
+      'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+    };
+    return fetch('https://kuistrip-ky.appspot.com/translate/nomlish', {
+      method: 'POST',
+      body: body,
+      headers: headers,
+    }).then(function(response) {
+      return response.json();
+    });
+  }
+
   onButtonClick() {
     // 簡単なバリデーション
     if(this.state.user_name == "") {
@@ -30,11 +45,17 @@ export class ChatPage extends React.Component {
       alert('text empty')
       return
     }
-    messagesRef.push({
-      "user_name" : this.state.user_name,
-      "profile_image" : this.state.profile_image,
-      "text" : this.state.text,
-      "date" : firebase.database.ServerValue.TIMESTAMP,
+    const state = this.state;
+    this.translate(this.state.text).then(function(json) {
+      messagesRef.push({
+        "user_name" : state.user_name,
+        "profile_image" : state.profile_image,
+        "text" : json.result,
+        "raw" : state.text,
+        "date" : firebase.database.ServerValue.TIMESTAMP,
+      })
+    }).catch(function(error) {
+      alert('Network Error!!')
     })
   }
 
